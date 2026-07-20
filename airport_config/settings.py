@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "rest_framework",
 
     "airport_config",
-    "airport_api"
+    "airport_api",
+    "User",
 ]
 
 MIDDLEWARE = [
@@ -121,4 +122,4 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-AUTH_USER_MODEL = "user.User"
+AUTH_USER_MODEL = "User.User"
