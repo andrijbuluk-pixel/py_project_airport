@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework.filters import SearchFilter, OrderingFilter
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 from airport_api.serializers import (
     CrewSerializer,
@@ -41,6 +43,28 @@ class AirplaneViewSet(viewsets.ModelViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+
+    filter_backends = (SearchFilter, OrderingFilter,)
+
+    search_fields = ("name",)
+    ordering_fields = ("name", "rows", "id")
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "search",
+                type=str,
+                description="Search by aircraft name (eg ?search=Aero)",
+            ),
+            OpenApiParameter(
+                "ordering",
+                type=str,
+                description="Sort results. Available fields: `name`, `rows`. To sort in descending order, add a minus (eg ?ordering=-rows)",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class AirportViewSet(viewsets.ModelViewSet):
