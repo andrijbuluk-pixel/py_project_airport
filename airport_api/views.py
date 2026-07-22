@@ -1,6 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.filters import SearchFilter, OrderingFilter
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from rest_framework.filters import SearchFilter
 
 from airport_api.serializers import (
     CrewSerializer,
@@ -27,10 +26,27 @@ from airport_api.models import (
 from airport_api.permissions import IsAdminOrIfAuthenticatedReadOnly
 
 
+class CustomSearchFilter(SearchFilter):
+    search_title = "search"
+    search_description = "Text search by allowed fields (eg ?search=Aero)."
+
+
+class CustomOrderingFilter(SearchFilter):
+    search_title = "order"
+    search_description = (
+        "Sort results. To sort in descending order, add a minus (eg ?ordering=-rows)."
+    )
+
+
 class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+
+    filter_backends = (CustomSearchFilter,)
+
+    search_fields = ("first_name", "last_name")
+    ordering_fields = ("first_name", "last_name")
 
 
 class AirplaneTypeViewSet(viewsets.ModelViewSet):
@@ -38,39 +54,35 @@ class AirplaneTypeViewSet(viewsets.ModelViewSet):
     serializer_class = AirplaneTypeSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
+    filter_backends = (CustomSearchFilter,)
+
+    search_fields = ("name",)
+    ordering_fields = ("name",)
+
 
 class AirplaneViewSet(viewsets.ModelViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
-    filter_backends = (SearchFilter, OrderingFilter,)
+    filter_backends = (
+        CustomSearchFilter,
+        CustomOrderingFilter,
+    )
 
     search_fields = ("name",)
     ordering_fields = ("name", "rows", "id")
-
-    @extend_schema(
-        parameters=[
-            OpenApiParameter(
-                "search",
-                type=str,
-                description="Search by aircraft name (eg ?search=Aero)",
-            ),
-            OpenApiParameter(
-                "ordering",
-                type=str,
-                description="Sort results. Available fields: `name`, `rows`. To sort in descending order, add a minus (eg ?ordering=-rows)",
-            ),
-        ]
-    )
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
 
 
 class AirportViewSet(viewsets.ModelViewSet):
     queryset = Airport.objects.all()
     serializer_class = AirportSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+
+    filter_backends = (CustomSearchFilter,)
+
+    search_fields = ("name", "closest_big_city")
+    ordering_fields = ("name",)
 
 
 class RouteViewSet(viewsets.ModelViewSet):
@@ -84,12 +96,36 @@ class FlightViewSet(viewsets.ModelViewSet):
     serializer_class = FlightSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
+    search_fields = (
+        "route__source",
+        "route__destination",
+        "route__distance",
+        "airplane__name",
+    )
+    ordering_fields = ("departure_time", "arrival_time")
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
+    filter_backends = (CustomSearchFilter,)
+
+    search_fields = (
+        "user__username",
+        "user__first_name",
+        "user__last_name",
+        "user__email",
+    )
+
 
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+
+    search_fields = (
+        "order__user__username",
+        "order__user__first_name",
+        "order__user__last_name",
+        "order__user__email",
+    )
