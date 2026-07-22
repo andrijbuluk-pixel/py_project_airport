@@ -1,5 +1,14 @@
+import os
+import uuid
+
 from django.conf import settings
 from django.db import models
+
+
+def movie_image_file(instance, filename):
+    ext = filename.splitext()[1]
+    filename = f"{uuid.uuid4()}{ext}"
+    return os.path.join("uploads", "immage", filename)
 
 
 class Crew(models.Model):
@@ -25,6 +34,7 @@ class Airplane(models.Model):
         AirplaneType,
         on_delete=models.CASCADE,
     )
+    image = models.ImageField(null=True, upload_to=movie_image_file)
 
     def __str__(self):
         return f"Airplane - {self.name}"
