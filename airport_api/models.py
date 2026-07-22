@@ -6,9 +6,9 @@ from django.db import models
 
 
 def movie_image_file(instance, filename):
-    ext = filename.splitext()[1]
+    ext = os.path.splitext(filename)[1]
     filename = f"{uuid.uuid4()}{ext}"
-    return os.path.join("uploads", "immage", filename)
+    return os.path.join("immage", filename)
 
 
 class Crew(models.Model):
