@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
+from rest_framework.pagination import PageNumberPagination
 
 from airport_api.serializers import (
     CrewSerializer,
@@ -38,10 +39,17 @@ class CustomOrderingFilter(SearchFilter):
     )
 
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = "page_size"
+    max_page_size = 100
+
+
 class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+    pagination_class = CustomPageNumberPagination
 
     filter_backends = (CustomSearchFilter,)
 
@@ -53,6 +61,7 @@ class AirplaneTypeViewSet(viewsets.ModelViewSet):
     queryset = AirplaneType.objects.all()
     serializer_class = AirplaneTypeSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+    pagination_class = CustomPageNumberPagination
 
     filter_backends = (CustomSearchFilter,)
 
@@ -64,6 +73,7 @@ class AirplaneViewSet(viewsets.ModelViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+    pagination_class = CustomPageNumberPagination
 
     filter_backends = (
         CustomSearchFilter,
@@ -78,6 +88,7 @@ class AirportViewSet(viewsets.ModelViewSet):
     queryset = Airport.objects.all()
     serializer_class = AirportSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+    pagination_class = CustomPageNumberPagination
 
     filter_backends = (CustomSearchFilter,)
 
@@ -89,12 +100,14 @@ class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.all()
     serializer_class = RouteSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+    pagination_class = CustomPageNumberPagination
 
 
 class FlightViewSet(viewsets.ModelViewSet):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+    pagination_class = CustomPageNumberPagination
 
     search_fields = (
         "route__source",
@@ -108,6 +121,7 @@ class FlightViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    pagination_class = CustomPageNumberPagination
 
     filter_backends = (CustomSearchFilter,)
 
@@ -122,6 +136,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+    pagination_class = CustomPageNumberPagination
 
     search_fields = (
         "order__user__username",
