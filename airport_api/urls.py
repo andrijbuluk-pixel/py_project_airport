@@ -14,14 +14,14 @@ from airport_api.views import (
 
 router = routers.DefaultRouter()
 
-router.register("crew", CrewViewSet)
-router.register("type", AirplaneTypeViewSet)
-router.register("airplane", AirplaneViewSet)
-router.register("airport", AirportViewSet)
-router.register("route", RouteViewSet)
-router.register("flight", FlightViewSet)
-router.register("order", OrderViewSet)
-router.register("ticket", TicketViewSet)
+router.register("crew", CrewViewSet, basename="crew")
+router.register("type", AirplaneTypeViewSet, basename="type")
+router.register("airplane", AirplaneViewSet, basename="airplane")
+router.register("airport", AirportViewSet, basename="airport")
+router.register("route", RouteViewSet, basename="route")
+router.register("flight", FlightViewSet, basename="flight")
+router.register("order", OrderViewSet, basename="order")
+router.register("ticket", TicketViewSet, basename="ticket")
 
 urlpatterns = [
     path("", include(router.urls)),
