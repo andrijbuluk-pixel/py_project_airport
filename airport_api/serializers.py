@@ -45,6 +45,8 @@ class AirplaneSerializer(serializers.ModelSerializer):
         )
 
 
+
+
 class AirportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airport
@@ -99,3 +101,20 @@ class TicketSerializer(serializers.ModelSerializer):
             "flight",
             "order",
         )
+
+    def validate(self, data):
+        flight = data.get("flight")
+        row = data.get("row")
+        seat = data.get("seat")
+
+        ticker_exists = Ticket.objects.filter(
+            flight=flight,
+            row=row,
+            seat=seat,
+        ).exists()
+
+        if ticker_exists:
+            raise serializers.ValidationError(
+                "This ticket is busy"
+            )
+        return data
