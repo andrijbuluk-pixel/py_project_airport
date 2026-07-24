@@ -2,19 +2,19 @@
 Airport API service for managing flights, tickets, planes and airports.
 
 ## Main features:
-registration/authentication (JWT),
+- registration/authentication (JWT),
 
-ordering tickets for a specific person,
+- ordering tickets for a specific person,
 
-managing employees,
+- managing employees,
 
-managing flight routes,
+- managing flight routes,
 
-aircraft management (adding their photo and description),
+- aircraft management (adding their photo and description),
 
-CRUD system is implemented for all models.
+- CRUD system is implemented for all models.
 
-Technologies
+Technologies:
 Python, Django, DRF, PostgreSQL, Docker.
 
 ## API endpoints:
