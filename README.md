@@ -1,7 +1,7 @@
-### Airport API
+# Airport API
 Airport API service for managing flights, tickets, planes and airports.
 
-### Main features:
+## Main features:
 registration/authentication (JWT),
 
 ordering tickets for a specific person,
@@ -17,7 +17,7 @@ CRUD system is implemented for all models.
 Technologies
 Python, Django, DRF, PostgreSQL, Docker.
 
-### API endpoints:
+## API endpoints:
 /api/airport/crew/ - employees,
 
 /api/airport/type/ - flight types,
@@ -34,7 +34,7 @@ Python, Django, DRF, PostgreSQL, Docker.
 
 /api/airport/ticket/ - ticket,
 
-### Example of requests:
+## Example of requests:
 To register a user, go to the link - **/api/user/register/** and pass the username and password. After registering **/api/user/token/**, enter your data, receive the token **/api/doc/swagger/** for convenience, click on the green AUTHORIZE button and enter the assigned access token in the Bearer field and AUTHORIZE -
 Close you have a simple user ready, he can view the data to create an admin, you just need to lead
 **docker-compose exec airport python manage.py createsuperuser**
@@ -54,8 +54,12 @@ Run the server **python manage.py runserver**
 ### Running via Docker:
 Building the container and running **docker-compose up --build**
 
+## Additional / Validation & Tests
+- **Custom validation:** implemented ticket identity/duplication check (seat and row uniqueness for a specific flight).
+- **Testing:** written tests to verify the correct operation of this validation.
 
-### Diagram
+
+## Diagram
 <img width="753" height="681" alt="Airport" src="https://github.com/user-attachments/assets/147b0130-b346-42ba-b58a-bd861f6c112a" />
 
 <img width="710" height="676" alt="Знімок екрана 2026-07-24 175042" src="https://github.com/user-attachments/assets/2441c21e-2817-4133-901f-e5271e77aceb" />
