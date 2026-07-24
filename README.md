@@ -35,24 +35,24 @@ Python, Django, DRF, PostgreSQL, Docker.
 /api/airport/ticket/ - ticket,
 
 ### Example of requests:
-To register a user, go to the link - "/api/user/register/" and pass the username and password. After registering "/api/user/token/", enter your data, receive the token "/api/doc/swagger/" for convenience, click on the green AUTHORIZE button and enter the assigned access token in the Bearer field and AUTHORIZE -
+To register a user, go to the link - **/api/user/register/** and pass the username and password. After registering **/api/user/token/**, enter your data, receive the token **/api/doc/swagger/** for convenience, click on the green AUTHORIZE button and enter the assigned access token in the Bearer field and AUTHORIZE -
 Close you have a simple user ready, he can view the data to create an admin, you just need to lead
-"docker-compose exec airport python manage.py createsuperuser"
+**docker-compose exec airport python manage.py createsuperuser**
 The end
 
 Instructions for local startup.
-Cloning "git clone"
+Cloning **git clone**
 
-Creation and activation of "venv ."
+Creation and activation of **venv .**
 
-Install dependencies "pip install -r requirements.txt"
+Install dependencies **pip install -r requirements.txt**
 
-Run migration "python manage.py migrate"
+Run migration **python manage.py migrate**
 
-Run the server "python manage.py runserver"
+Run the server **python manage.py runserver**
 
 ### Running via Docker:
-Building the container and running "docker-compose up --build"
+Building the container and running **docker-compose up --build**
 
 
 <img width="710" height="676" alt="Знімок екрана 2026-07-24 175042" src="https://github.com/user-attachments/assets/2441c21e-2817-4133-901f-e5271e77aceb" />
