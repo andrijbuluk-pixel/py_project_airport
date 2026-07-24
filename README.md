@@ -55,6 +55,9 @@ Run the server **python manage.py runserver**
 Building the container and running **docker-compose up --build**
 
 
+### Diagram
+<img width="753" height="681" alt="Airport" src="https://github.com/user-attachments/assets/1471065f-51cb-42b0-858f-85d5e0caee72" />
+
 <img width="710" height="676" alt="Знімок екрана 2026-07-24 175042" src="https://github.com/user-attachments/assets/2441c21e-2817-4133-901f-e5271e77aceb" />
 <img width="478" height="532" alt="Знімок екрана 2026-07-24 175129" src="https://github.com/user-attachments/assets/ff4ff043-8586-4a2f-bc70-4d5276a4aa68" />
 <img width="713" height="563" alt="Знімок екрана 2026-07-24 175143" src="https://github.com/user-attachments/assets/6331e2fe-c787-45a9-bba3-1c0eca74ca79" />
