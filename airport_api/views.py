@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 from airport_api.serializers import (
     CrewSerializer,
@@ -121,6 +122,7 @@ class FlightViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
     pagination_class = CustomPageNumberPagination
 
     filter_backends = (CustomSearchFilter,)
@@ -132,10 +134,14 @@ class OrderViewSet(viewsets.ModelViewSet):
         "user__email",
     )
 
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
 
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.select_related("flight", "order")
     serializer_class = TicketSerializer
+    permission_classes = [IsAuthenticated]
     pagination_class = CustomPageNumberPagination
 
     search_fields = (
