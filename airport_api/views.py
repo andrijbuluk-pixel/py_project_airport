@@ -97,14 +97,14 @@ class AirportViewSet(viewsets.ModelViewSet):
 
 
 class RouteViewSet(viewsets.ModelViewSet):
-    queryset = Route.objects.all()
+    queryset = Route.objects.select_related("source", "destination")
     serializer_class = RouteSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
     pagination_class = CustomPageNumberPagination
 
 
 class FlightViewSet(viewsets.ModelViewSet):
-    queryset = Flight.objects.all()
+    queryset = Flight.objects.select_related("route", "airplane").prefetch_related("crew")
     serializer_class = FlightSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
     pagination_class = CustomPageNumberPagination
@@ -134,7 +134,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 
 class TicketViewSet(viewsets.ModelViewSet):
-    queryset = Ticket.objects.all()
+    queryset = Ticket.objects.select_related("flight", "order")
     serializer_class = TicketSerializer
     pagination_class = CustomPageNumberPagination
 
