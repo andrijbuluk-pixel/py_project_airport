@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework import status
-from django.test import TestCase
+from rest_framework.test import APITestCase
 
 from airport_api.models import Airport, Route, Flight, Airplane, AirplaneType, Crew, Ticket, Order
 
@@ -12,7 +12,7 @@ from airport_api.models import Airport, Route, Flight, Airplane, AirplaneType, C
 AIROPORT_URL = reverse("airport_api:ticket-list")
 
 
-class TickerSerializer(TestCase):
+class TickerSerializer(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
@@ -80,3 +80,13 @@ class TickerSerializer(TestCase):
 
         response = self.client.post(AIROPORT_URL, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_limit_ticket_for_row_and_seats_airplane(self):
+        ticket_data = {
+            "flight": self.flight.id,
+            "row": 99,
+            "seat": 99,
+        }
+
+        response = self.client.post(AIROPORT_URL, ticket_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

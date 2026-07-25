@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.db import transaction
 
 from airport_api.models import (
     Crew,
@@ -43,8 +42,6 @@ class AirplaneSerializer(serializers.ModelSerializer):
             "seats_in_row",
             "airplane_type",
         )
-
-
 
 
 class AirportSerializer(serializers.ModelSerializer):
