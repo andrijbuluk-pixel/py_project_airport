@@ -150,3 +150,6 @@ class TicketViewSet(viewsets.ModelViewSet):
         "order__user__last_name",
         "order__user__email",
     )
+
+    def get_queryset(self):
+        return Ticket.objects.filter(order__user=self.request.user)
