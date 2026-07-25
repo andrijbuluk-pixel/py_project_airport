@@ -107,14 +107,24 @@ class TicketSerializer(serializers.ModelSerializer):
         row = data.get("row")
         seat = data.get("seat")
 
-        ticker_exists = Ticket.objects.filter(
+        ticket_exists = Ticket.objects.filter(
             flight=flight,
             row=row,
             seat=seat,
         ).exists()
 
-        if ticker_exists:
+        if ticket_exists:
             raise serializers.ValidationError(
                 "This ticket is busy"
             )
+
+        if row > flight.airplane.rows:
+            raise serializers.ValidationError(
+                "Row limit exceeded"
+            )
+        if seat > flight.airplane.seats_in_row:
+            raise serializers.ValidationError(
+                "Seat limit exceeded"
+            )
+
         return data
